@@ -1,7 +1,31 @@
-import React from 'react';
 import {Link} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 
 const OrganizerRegister = () => {
+    const [fname, setFirstName] = useState('');
+    const [lname, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [role, setRole] = useState('organizer');
+    const navigate = useNavigate();
+    const submit = async (e) => {
+        e.preventDefault();
+
+        await fetch('http://localhost/api/register', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                fname,
+                lname,
+                role,
+                email,
+                password
+            })
+        });
+        navigate('/signin');
+    }
+
     return (
         <div>
             <section className="bg-gray-900">
@@ -24,30 +48,32 @@ const OrganizerRegister = () => {
                             </div>
 
                             <div  className=" w-full">
-                                <form action="" method="POST" encType="multipart/form-data" className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2 ">
+                                <form onSubmit={submit} className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2 ">
                                     <div>
                                         <label className="block mb-2 text-sm text-gray-100 ">First Name</label>
-                                        <input name="fname" type="text" placeholder="John" className="block w-full px-5 py-3 mt-2 text-gray-700placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-300 dark:bg-gray-100 dark:text-gray-700dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
+                                        <input onChange={(e) => setFirstName(e.target.value)} type="text" placeholder="John" className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-300 dark:bg-gray-100 dark:text-gray-700dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
                                     </div>
 
                                     <div>
                                         <label className="block mb-2 text-sm text-gray-100 ">Last Name</label>
-                                        <input name="lname" type="text" placeholder="Week" className="block w-full px-5 py-3 mt-2 text-gray-700placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-300 dark:bg-gray-100 dark:text-gray-700dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
+                                        <input onChange={(e) => setLastName(e.target.value)} type="text" placeholder="Week" className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-300 dark:bg-gray-100 dark:text-gray-700dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
                                     </div>
 
                                     <div>
                                         <label className="block mb-2 text-sm text-gray-100">Email Address</label>
-                                        <input name="email" type="text" placeholder="johnsnow@example.com" className="block w-full px-5 py-3 mt-2 text-gray-100 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-300 dark:bg-gray-100 dark:text-gray-700dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
+                                        <input onChange={(e) => setEmail(e.target.value)} type="text" placeholder="johnsnow@example.com" className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-300 dark:bg-gray-100 dark:text-gray-700dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
                                     </div>
 
                                     <div>
                                         <label className="block mb-2 text-sm text-gray-100">Password</label>
-                                        <input name="password" type="password" placeholder="" className="block w-full px-5 py-3 mt-2 text-gray-100 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-300 dark:bg-gray-100 dark:text-gray-700dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
+                                        <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="" className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-300 dark:bg-gray-100 dark:text-gray-700dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
                                     </div>
 
-                                    <input type="hidden" name="role" value="Organizer"/>
+                                    <input type="hidden" name="role" value={role}
+                                           onChange={(e) => setRole(e.target.value)}/>
 
-                                    <button type="submit" className="flex items-center justify-between w-full px-6 h-12 mt-7 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-black rounded-lg hover:bg-gray-900 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                                    <button type="submit"
+                                            className="flex items-center justify-between w-full px-6 h-12 mt-7 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-black rounded-lg hover:bg-gray-900 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                                         <span>Sign Up </span>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 rtl:-scale-x-100" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>

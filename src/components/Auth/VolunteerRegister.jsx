@@ -1,7 +1,32 @@
-import React from 'react';
 import {Link} from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 const VolunteerRegister = () => {
+    const [fname, setFirstName] = useState('');
+    const [lname, setLastName] = useState('');
+    const [competance, setCompetance] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [role, setRole] = useState('volunteer');
+    const navigate = useNavigate();
+    const submit = async (e) => {
+        e.preventDefault();
+
+        await fetch('http://localhost/api/register', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                fname,
+                lname,
+                competance,
+                role,
+                email,
+                password
+            })
+        });
+       navigate('/signin');
+    }
+
     return (
         <div>
             <section className="bg-gray-900">
@@ -23,38 +48,38 @@ const VolunteerRegister = () => {
                             </div>
 
                                 <div  className=" w-full">
-                                    <form action="" method="POST" encType="multipart/form-data"
-                                          className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2 ">
+                                    <form onSubmit={submit} className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2 ">
 
                                         <div>
                                             <label className="block mb-2 text-sm text-gray-100 ">First Name</label>
-                                            <input name="fname" type="text" placeholder="John"
+                                            <input onChange={e => setFirstName(e.target.value)} type="text" placeholder="John"
                                                    className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-300 dark:bg-gray-100 dark:text-gray-700 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
                                         </div>
 
                                         <div>
                                             <label className="block mb-2 text-sm text-gray-100 ">Last Name</label>
-                                            <input name="lname" type="text" placeholder="Week"
+                                            <input onChange={e => setLastName(e.target.value)} type="text" placeholder="Week"
                                                    className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-300 dark:bg-gray-100 dark:text-gray-700 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
                                         </div>
                                         <div>
                                             <label className="block mb-2 text-sm text-gray-100 ">Skills</label>
-                                            <input name="competance" type="text" placeholder="Designer ..." className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-300 dark:bg-gray-100 dark:text-gray-700 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
+                                            <input onChange={e => setCompetance(e.target.value)} type="text" placeholder="Designer ..." className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-300 dark:bg-gray-100 dark:text-gray-700 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
                                         </div>
 
                                         <div>
                                             <label className="block mb-2 text-sm text-gray-100">Email Address</label>
-                                            <input name="email" type="email" placeholder="johnsnow@example.com"
+                                            <input onChange={e => setEmail(e.target.value)}type="email" placeholder="johnsnow@example.com"
                                                    className="block w-full px-5 py-3 mt-2 text-gray-100 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-300 dark:bg-gray-100 dark:text-gray-700 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
                                         </div>
 
                                         <div>
                                             <label className="block mb-2 text-sm text-gray-100">Password</label>
-                                            <input name="password" type="password" placeholder=""
+                                            <input onChange={e => setPassword(e.target.value)} type="password" placeholder=""
                                                    className="block w-full px-5 py-3 mt-2 text-gray-100 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-300 dark:bg-gray-100 dark:text-gray-700 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
                                         </div>
 
-                                        <input type="hidden" name="role" value="volunteer"/>
+                                        <input type="hidden" name="role" value={role}
+                                               onChange={(e) => setRole(e.target.value)}/>
 
                                         <button type="submit"
                                                 className="flex items-center justify-between w-full px-6 h-12 mt-7 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-black rounded-lg hover:bg-gray-900 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
