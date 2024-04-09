@@ -89,7 +89,7 @@ const Annonces = () => {
 
                     <div className="flex items-center justify-between mt-4">
                         <div className="flex items-center text-center gap-2">
-                            <Link to="/EditAnnounces" className="bg-blue-200 hover:bg-blue-300 duration-500  rounded px-1 py-1 hover:cursor-pointer ">
+                            <Link to="/EditAnnounces/${annonce.id}" className="bg-blue-200 hover:bg-blue-300 duration-500  rounded px-1 py-1 hover:cursor-pointer ">
                                 <svg className="w-8 h-8 text-blue-500 " aria-hidden="true"
                                      xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="non    e"
                                      viewBox="0 0 24 24">

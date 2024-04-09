@@ -1,7 +1,55 @@
-import React from 'react';
-import {Link} from "react-router-dom";
-
+import React, {useState, useEffect} from 'react';
+import {Link, useParams, useNavigate} from "react-router-dom";
 const EditAnnounces = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        titre: '',
+        description: '',
+        type: '',
+        location: '',
+        date: '',
+    });
+
+    useEffect(() => {
+       const fetchAnnouncement = async () => {
+           try {
+               const response = await fetch(`http://localhost/api/annonces/${id}`);
+               if (!response.ok) {
+                   throw new Error('Failed to fetch data');
+               }
+               const data = await response.json();
+               setFormData(data);
+           } catch (error) {
+                console.error('Error fetching announcement data', error);
+           }
+       };
+       fetchAnnouncement();
+    }, [id]);
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try{
+            const response = await fetch(`http://localhost/api/annonces/update/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+            if(!response.ok){
+                throw new Error('Failed to update Announcement');
+            }
+            console.log('Announcement Updated Successfully');
+            navigate('/annonces');
+        } catch (error) {
+            console.log
+        }
+    }
     return (
         <div>
             <div className="mt-44">

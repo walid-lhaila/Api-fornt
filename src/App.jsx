@@ -85,7 +85,7 @@ function App() {
 
                       <Route path="/annonces" element={<Annonces/>}/>
                       <Route path="/CreateAnnonces" element={<CreateAnnonces/>}/>
-                      <Route path="/EditAnnounces" element={<EditAnnounces/>}/>
+                      <Route path="/EditAnnounces/:id" element={<EditAnnounces/>}/>
 
 
                       <Route path="/AllAnnounces" element={<AllAnnounces/>}/>
